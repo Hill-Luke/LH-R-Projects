@@ -29,7 +29,7 @@ plot(boundaries)
 
 #Downloading map from google maps
 mapImage <- 
-print(mapImage)
+  print(mapImage)
 
 #plotting boundaries on maps
 #Transforming the JSON data to get the coordinates to plot
@@ -56,7 +56,7 @@ print(mapImage + geom_polygon(aes(long, lat, group=id, color=id), fill=NA, data 
 
 p<-ggmap(get_googlemap(c(lon = -87.643433, lat = 41.853196), scale = 1, 
                        zoom = 10, key="AIzaSyBb050eQTzkN-MoHNiG6Fs8RvD36WFt_6A"), extent = "normal") +
-                      geom_polygon(aes(long, lat, color=community), fill=NA, data = boundary_data_full)
+  geom_polygon(aes(long, lat, color=community), fill=NA, data = boundary_data_full)
 ggplotly(p)
 
 
@@ -67,9 +67,10 @@ homicides<-subset(crime_2012, Primary.Type=="HOMICIDE")
 
 #adding homicides to the map
 Killings<-ggmap(get_googlemap(c(lon = -87.643433, lat = 41.853196), scale = 1, 
-                       zoom = 10, key="AIzaSyBb050eQTzkN-MoHNiG6Fs8RvD36WFt_6A"), extent = "normal") +
-  geom_polygon(aes(long, lat, color=community), fill=NA, data = boundary_data_full)+
-    geom_point(aes(Longitude, Latitude), data=homicides)
-ggplotly(Killings)
+                              zoom = 10, key="AIzaSyBb050eQTzkN-MoHNiG6Fs8RvD36WFt_6A"), extent = "normal") +
+  geom_polygon(aes(long, lat, color=community, label=community), fill=NA, data = boundary_data_full)+
+  geom_point(aes(label2= Date, x=Longitude, y=Latitude), data=homicides)+
+  ggtitle("Homicides in Chicago, Illinois by neighborhood, 2012")
+ggplotly(Killings, tooltip=c("label", "label2"))
 
-#Testing upload to GITHUB
+
