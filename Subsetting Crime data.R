@@ -22,10 +22,6 @@ plot(boundaries)
 #Plotting basic boundaries of Chicago
 plot(boundaries)
 
-#Downloading map from google maps
-mapImage <- 
-  print(mapImage)
-
 #plotting boundaries on maps
 #Transforming the JSON data to get the coordinates to plot
 boundary_data<-tidy(boundaries)
@@ -57,16 +53,15 @@ setwd("/Users/lukeofthehill/Desktop/R/Data/Chicago Crime Edu/")
 
 write.csv(file="crime_full.csv", crime_full)
 
-crime_major<-subset(crime_full, Primary.Type=="ASSAULT" | Primary.Type=="HOMICIDE" |Primary.Type=="NARCOTICS"|Primary.Type=="ROBBERY"|Primary.Type=="THEFT")
+table(crime_full$Primary.Type)
+crime_major<-subset(crime_full, Primary.Type=="ASSAULT" |Primary.Type=="WEAPONS VIOLATION" |Primary.Type=="OTHER NARCOTIC VIOLATION" |Primary.Type=="BATTERY" | Primary.Type=="HOMICIDE" |Primary.Type=="NARCOTICS"|Primary.Type=="ROBBERY"|Primary.Type=="THEFT")
 
 
 write.csv(file="crime_major.csv", crime_major)
 
 
-table(crime_full$Primary.Type)
 ?save()
 
-crime_full$counts<-count(crime_full$ID) %>% ?group()
 
 crimes_plot<-ggplot(data=crime_major, aes(x=count(Primary.Type), y=Year, color=Primary.Type))+geom_line(stat=identity)
 
@@ -81,7 +76,7 @@ crime_summary<-sqldf("SELECT COUNT(crime_type) as num_crimes, community_area, cr
                     GROUP BY community_area, crime_type, Year;")
 names(boundary_data_names)
 
-crosstab(crime_summary$num_crimes, crime_summary$Year)
+
 
 
 
@@ -112,4 +107,4 @@ crime_summary_full<-sqldf("SELECT  A.*, b.crime_type, B.num_crimes as num_crimes
 crime_summary_full<-NULL 
 
 
-write.csv(file="crime_summary_full2.csv", crime_summary_full2)
+write.csv(file="crime_summary_final_project.csv", crime_summary_full2)
